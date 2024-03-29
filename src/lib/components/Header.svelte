@@ -1,23 +1,34 @@
 <script lang="ts">
     import { page } from "$app/stores";
     import { onMount } from "svelte";
-    import { totalValue } from '$lib/utils/assets';
+    import { listAssets } from '$lib/utils/assets';
     
+    let assets: any = [];
     let totalAmount: any = 0;
+    let totalWidth: number = 0;
 
     const username: any = $page.data.session?.user?.email;
 
     onMount(async () => {
-        totalAmount = await totalValue(username);
+        assets = await listAssets(username);
+        calculateWidths();
     });
+
+    function calculateWidths() {
+        totalAmount = 0;
+        assets.forEach((asset: { amount: number; rates: { USD: number; }; }) => {
+            totalAmount += asset.amount * asset.rates.USD;
+        });
+        totalWidth = 100 / assets.length;
+    }
 </script>
 
 <header>
-    <span class="total">${totalAmount}</span>
+    <span class="total">${totalAmount.toFixed(2)}</span>
     <div class="line">
-        <div class="BTC line-element"></div>
-        <div class="ETH line-element"></div>
-        <div class="SOL line-element"></div>
+        {#each assets as asset}
+            <div class="{asset.coin} line-element" style="width: {totalWidth}%"></div>
+        {/each}
     </div>
 </header>
 
@@ -37,40 +48,10 @@
 
     .line-element {
         height: .2rem;
-    }
-
-    /* This will by dynamic */
-    .BTC {
-        background-color: var(--f-yellow);
-        width: 10%;
-    }
-
-    .BTC::after {
-        content: "BTC";
-        font-size: .8rem;
-        position: absolute;
-        margin-top: .5rem;
-    }
-
-    .ETH {
         background-color: var(--f-blue);
-        width: 20%;
     }
 
-    .ETH::after {
-        content: "ETH";
-        font-size: .8rem;
-        position: absolute;
-        margin-top: .5rem;
-    }
-
-    .SOL {
-        background-color: var(--f-red);
-        width: 70%;
-    }
-
-    .SOL::after {
-        content: "SOL";
+    .line-element::after {
         font-size: .8rem;
         position: absolute;
         margin-top: .5rem;

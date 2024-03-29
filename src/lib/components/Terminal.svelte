@@ -1,6 +1,7 @@
 <script lang="ts">
     import { page } from "$app/stores";
     import { addCoin } from '$lib/services/addCoin';
+    import { removeCoin } from '$lib/services/removeCoin';
     import { onMount } from 'svelte';
 
     const username: any = $page.data.session?.user?.email
@@ -38,7 +39,7 @@
                         }
                         break;
                     case 'help':
-                        terminalOutput.innerHTML = 'List of commands:\n- add <amount> <coin>';
+                        terminalOutput.innerHTML = 'List of commands:\n- add <amount> <coin>';  
                         break;
                     default:
                         terminalOutput.innerHTML = `Command not found: ${command}`;

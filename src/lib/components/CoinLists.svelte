@@ -48,9 +48,4 @@
     .asset-list-item {
         text-transform: uppercase;
     }
-
-    sup {
-        color: var(--f-blue);
-    }
-
 </style>
