@@ -61,4 +61,10 @@
         position: absolute;
         margin-top: .5rem;
     }
+
+    @media screen and (max-width: 600px) {
+		.total {
+            font-size: 2rem;
+        }
+    }
 </style>

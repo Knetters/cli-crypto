@@ -17,7 +17,7 @@
         
         // Compare current and previous prices to determine the trend
         updatedAssets.forEach(updatedAsset => {
-            const prevAsset = assets.find(asset => asset.coin === updatedAsset.coin);
+            const prevAsset = assets.find((asset: { coin: any; }) => asset.coin === updatedAsset.coin);
             if (prevAsset && updatedAsset.rates.USD !== prevAsset.rates.USD) {
                 updatedAsset.trend = updatedAsset.rates.USD > prevAsset.rates.USD ? 'higher' : 'lower';
             }
@@ -35,7 +35,7 @@
             <ul>
                 {#each assets as asset}
                     <li class="asset-list-item {asset.trend}">
-                        {asset.coin} ${asset.rates.USD}
+                        <span class="asset-name">{asset.coin}</span> ${asset.rates.USD}
                     </li>
                 {/each}
             </ul>
@@ -63,6 +63,11 @@
 
     .asset-list-item {
         text-transform: uppercase;
+    }
+
+    .asset-name {
+        display: inline-block;
+        width: 3rem;
     }
 
     .higher {
@@ -94,6 +99,17 @@
         }
         100% {
             color: var(--f-white);
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        .list-row {
+            height: fit-content;
+            flex-direction: column;
+        }
+
+        .list-row-item {
+            margin-bottom: 2rem;
         }
     }
 </style>

@@ -73,8 +73,6 @@
                 height: 100vh;
                 margin-left: auto;
                 margin-right: auto;
-                border-radius: 0.2rem;
-                /* box-shadow: 0rem 0rem 0rem 1px var(--f-blue); */
                 position: relative;
         }
 
@@ -125,5 +123,23 @@
                 display: flex;
                 justify-content: space-between;
         }
+
+        @media screen and (max-width: 600px) {
+                .menu-bar {
+                        width: 50vw;
+                        height: 100vh;
+                        margin: 0;
+                        padding: .5rem;
+                        position: absolute;
+                        background-color: var(--bg-terminal);
+                        z-index: 1000;
+
+                        display: none;
+                }
+
+                .content {
+                        margin: .5rem;
+                        border-radius: 1rem 1rem 0rem 0rem;
+                }
+        }
 </style>
-    
