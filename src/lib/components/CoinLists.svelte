@@ -13,7 +13,17 @@
     });
 
     async function updateAssets() {
-        assets = await listAssets(username);
+        const updatedAssets = await listAssets(username);
+        
+        // Compare current and previous prices to determine the trend
+        updatedAssets.forEach(updatedAsset => {
+            const prevAsset = assets.find(asset => asset.coin === updatedAsset.coin);
+            if (prevAsset && updatedAsset.rates.USD !== prevAsset.rates.USD) {
+                updatedAsset.trend = updatedAsset.rates.USD > prevAsset.rates.USD ? 'higher' : 'lower';
+            }
+        });
+        
+        assets = updatedAssets;
     }
 </script>
 
@@ -24,7 +34,7 @@
         {#if assets.length > 0}
             <ul>
                 {#each assets as asset}
-                    <li class="asset-list-item">
+                    <li class="asset-list-item {asset.trend}">
                         {asset.coin} ${asset.rates.USD}
                     </li>
                 {/each}
@@ -40,6 +50,7 @@
     </div>
 </section>
 
+
 <style>
     .list-row {
         display: flex;
@@ -52,5 +63,37 @@
 
     .asset-list-item {
         text-transform: uppercase;
+    }
+
+    .higher {
+        animation: higher .5s;
+    }
+
+    @keyframes higher {
+        0% {
+            color: var(--f-white);
+        }
+        50% {
+            color: var(--f-green);
+        }
+        100% {
+            color: var(--f-white);
+        }
+    }
+    
+    .lower {
+        animation: lower .5s;
+    }
+
+    @keyframes lower {
+        0% {
+            color: var(--f-white);
+        }
+        50% {
+            color: var(--f-red);
+        }
+        100% {
+            color: var(--f-white);
+        }
     }
 </style>
