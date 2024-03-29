@@ -24,7 +24,11 @@
 </script>
 
 <header>
-    <span class="total">${totalAmount.toFixed(2)}</span>
+    {#if !totalAmount}
+        <span class="total">Loading...</span>
+    {:else}
+        <span class="total">${totalAmount.toFixed(2)}</span>
+    {/if}
     <div class="line">
         {#each assets as asset}
             <div class="{asset.coin} line-element" style="width: {totalWidth}%"></div>

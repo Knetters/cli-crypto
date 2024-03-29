@@ -4,9 +4,20 @@
     import { removeCoin } from '$lib/services/removeCoin';
     import { onMount } from 'svelte';
 
+    const textArt: string = `
+  ___  __    ____       ___  ____  _  _  ____  ____  _____ 
+ / __)(  )  (_  _)___  / __)(  _ \\( \\/ )(  _ \\(_  _)(  _  )
+( (__  )(__  _)(_(___)( (__  )   / \\  /  )___/  )(   )(_)( 
+ \\___)(____)(____)     \\___)(_)\\_) (__) (__)   (__) (_____)
+`;
+
+
     const username: any = $page.data.session?.user?.email
 
     onMount(() => {
+        const textartElem: any = document.getElementById('textart');
+        textartElem.innerHTML = textArt;
+
         let inputElem: any = document.querySelector("input");
 
         window.addEventListener('load', function(e) {
@@ -38,8 +49,12 @@
                             terminalOutput.innerHTML = `Added ${amount} ${coin}`;
                         }
                         break;
+                    case 'remove':
+                        removeCoin(coin, username);
+                        terminalOutput.innerHTML = `removed ${coin}`;
+                        break;
                     case 'help':
-                        terminalOutput.innerHTML = 'List of commands:\n- add <amount> <coin>';  
+                        terminalOutput.innerHTML = 'List of commands: - add [amount] [coin] - remove [coin] - update [amount] [coin]';  
                         break;
                     default:
                         terminalOutput.innerHTML = `Command not found: ${command}`;
@@ -56,11 +71,12 @@
         <span class="toolbar-text">cli-Crypto terminal, v1.0</span>
     </div>
     <div class="terminal-content">
+        <span class="textart" id="textart"><span class="loading-span">Loading...</span></span>
         <p class="intro-text">Type <span class="purple">help</span> for a list of commands</p>
         <div id="output">
             <!-- Output -->
         </div>
-        <p><span class="blue" aria-hidden="true">guest</span><span class="white" aria-hidden="true">@</span><span class="red" aria-hidden="true">cli-crypto.com</span> <span class="white" aria-hidden="true">&gt;</span> <input type="text" class="terminal-input" spellcheck="false"></p>
+        <p><span class="blue" aria-hidden="true">{username}</span><span class="white" aria-hidden="true">/</span><span class="red" aria-hidden="true">cli-crypto.com</span> <span class="white" aria-hidden="true">&gt;</span> <input type="text" class="terminal-input" spellcheck="false"></p>
     </div>
 </section>
 
@@ -94,7 +110,7 @@
 
     .terminal-content {
         position: absolute;
-        padding: 2.5rem .5rem;
+        padding: .5rem;
         height: 20rem;
         width: 100%;
         font-size: .9rem;
@@ -114,8 +130,13 @@
     }
 
     .intro-text {
+        padding-top: .5rem;
         margin-top: 0rem;
         margin-bottom: 1rem;
+    }
+
+    .loading-span {
+        margin-top: 2rem;
     }
 
     .terminal-input {
@@ -128,5 +149,9 @@
 
     .terminal-input:focus {
         outline: none;
+    }
+
+    .textart {
+        white-space: pre;
     }
 </style>
