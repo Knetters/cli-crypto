@@ -8,8 +8,13 @@
     const username: any = $page.data.session?.user?.email;
 
     onMount(async () => {
-        assets = await listAssets(username);
+        await updateAssets();
+        setInterval(updateAssets, 5000); // Run every 5 seconds
     });
+
+    async function updateAssets() {
+        assets = await listAssets(username);
+    }
 </script>
 
 <section class="list-row">

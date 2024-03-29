@@ -1,17 +1,16 @@
 import { supabase } from '$lib/supabase';
 import { page } from "$app/stores";
 
-export async function getCoins(username: string) {
+export async function getHistory(username: string) {
     if (!page) {
         console.error("No user data.");
         return [];
     }
 
     try {
-        // Fetch user data
         const { data, error: lobbyError } = await supabase
             .from('users')
-            .select('coins')
+            .select('history')
             .eq("name", username)
             .single();
 
@@ -24,9 +23,9 @@ export async function getCoins(username: string) {
             return [];
         }
 
-        const coins = data.coins || [];
+        const history = data.history || [];
         
-        return coins;
+        return history;
     } catch (error) {
         console.error('Error', error);
         return [];

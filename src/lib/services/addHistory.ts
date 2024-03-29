@@ -1,49 +1,63 @@
-import { supabase } from "$lib/supabase";
+import { supabase } from '$lib/supabase';
 import { page } from "$app/stores";
 
-export async function addHistory(message: string) {
-  if (!page) {
-    console.error("No user found");
-    return;
-  }
+export async function addHistory(message: string, username: string) {
+    if (!page) {
+        console.error("No user data.");
+        return;
+    }
 
-  // Check if user with the same name already exists
-  const { data: existingUsers, error: existingUsersError } = await supabase
-    .from("users")
-    .select("id")
-    .eq("name", name);
+    try {
+        // Fetch user data
+        const { data, error: lobbyError } = await supabase
+            .from('users')
+            .select('history')
+            .eq("name", username)
+            .single();
 
-  if (existingUsersError) {
-    console.error("Error checking for existing user:", existingUsersError.message);
-    return;
-  }
+        if (lobbyError) {
+            throw lobbyError;
+        }
 
-  if (existingUsers.length > 0) {
-    return;
-  }
+        if (!data) {
+            console.error('User not found.');
+            return;
+        }
 
-  // Generate random ID for the new user
-  const userId = generateRandomId();
+        const date: string = generateDate();
+        const history = data.history || [];
 
-  // Insert the new user into the database
-  const { data: newUser, error: addUserError } = await supabase
-    .from("users")
-    .insert([{ id: userId, name: name }]);
+        let line = {
+            message,
+            date,
+        };
 
-  if (addUserError) {
-    console.error("Error adding user:", addUserError.message);
-    return;
-  }
+        history.push(line);
+
+        const { error } = await supabase
+            .from('users')
+            .update({ history })
+            .eq("name", username);
+
+        if (error) {
+            throw error;
+        }
+
+        console.log('History updated successfully.');
+    } catch (error) {
+        console.error('Error');
+    }
 }
 
-function generateRandomId(): string {
-  const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
-  const length = 20;
-  let randomId = "";
+function generateDate(): string {
+  const currentDate: Date = new Date();
+  const month: number = currentDate.getMonth() + 1; // Adding 1 because getMonth() returns zero-based index
+  const day: number = currentDate.getDate();
+  const year: number = currentDate.getFullYear();
 
-  for (let i = 0; i < length; i++) {
-    randomId += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
+  // Pad single digit month or day with leading zero
+  const monthString: string = month < 10 ? '0' + month : month.toString();
+  const dayString: string = day < 10 ? '0' + day : day.toString();
 
-  return randomId;
+  return `${monthString}-${dayString}-${year}`;
 }

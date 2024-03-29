@@ -12,6 +12,7 @@
     onMount(async () => {
         assets = await listAssets(username);
         calculateWidths();
+        setInterval(calculateWidths, 5000); // Run every 5 seconds
     });
 
     function calculateWidths() {

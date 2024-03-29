@@ -1,6 +1,7 @@
 <script lang="ts">
     import { page } from "$app/stores";
     import { addCoin } from '$lib/services/addCoin';
+    import { addHistory } from '$lib/services/addHistory';
     import { removeCoin } from '$lib/services/removeCoin';
     import { onMount } from 'svelte';
 
@@ -46,6 +47,7 @@
                             terminalOutput.innerHTML = 'Invalid command syntax. Usage: add <amount> <coin>';
                         } else {
                             addCoin(amount, coin, username);
+                            addHistory(`Added ${amount} of ${coin}.`, username)
                             terminalOutput.innerHTML = `Added ${amount} ${coin}`;
                         }
                         break;
@@ -113,7 +115,7 @@
         padding: .5rem;
         height: 20rem;
         width: 100%;
-        font-size: .9rem;
+        font-size: 1rem;
         user-select: none;
         overflow-y: scroll;
     }

@@ -1,22 +1,32 @@
 <script lang="ts">
         import { signOut } from "@auth/sveltekit/client";
         import { addUser } from '$lib/services/addUser';
+        import { getHistory } from '$lib/services/getHistory';
         import { page } from "$app/stores";
         import { onMount } from "svelte";
 
         import Header from "./Header.svelte";
         import Terminal from "./Terminal.svelte";
-    import CoinLists from "./CoinLists.svelte";
-    
+        import CoinLists from "./CoinLists.svelte";
+
+        let history: any = [];
+        const username: any = $page.data.session?.user?.email;
+
         onMount(async () => {
-                addUser(`${$page.data.session?.user?.email}`)
+                addUser(username);
+                await updateHistory();
+                setInterval(updateHistory, 5000);
         });
-</script>
-    
+
+        async function updateHistory() {
+                history = await getHistory(username);
+        }
+</script>    
+
 <svelte:head>
         <title>cli-Crypto - Portfolio {$page.data.session?.user?.name}</title>
 </svelte:head>
-    
+
 <section>
         <div class="inner-dashboard">
                 <div class="menu-bar">
@@ -26,6 +36,18 @@
                         </fieldset>
                         <fieldset class="menu menu-container">
                                 <legend>History</legend>
+                                {#if history.length == 0}
+                                        <p class="red">No history</p>
+                                {:else}
+                                        <ul>
+                                        {#each history as line}
+                                                <li>
+                                                        <p class="gray">{line.date}</p> 
+                                                        <p>{line.message}</p>
+                                                </li>
+                                        {/each}
+                                        </ul>
+                                {/if}
                         </fieldset>
                         <fieldset class="status menu-container">
                                 <legend>Status</legend>

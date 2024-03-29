@@ -3,7 +3,7 @@ import { page } from "$app/stores";
 
 export async function addCoin(amount: number, coin: string, username: string) {
     if (!page) {
-        console.error("Code is not set.");
+        console.error("No user data.");
         return;
     }
 
