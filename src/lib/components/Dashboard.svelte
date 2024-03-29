@@ -6,6 +6,7 @@
 
         import Header from "./Header.svelte";
         import Terminal from "./Terminal.svelte";
+    import CoinLists from "./CoinLists.svelte";
     
         onMount(async () => {
                 addUser(`${$page.data.session?.user?.email}`)
@@ -21,7 +22,7 @@
                 <div class="menu-bar">
                         <fieldset class="status menu-container">
                                 <legend>Welcome</legend>
-                                {$page.data.session?.user?.name}
+                                <span class="name">{$page.data.session?.user?.name}</span>
                         </fieldset>
                         <fieldset class="menu menu-container">
                                 <legend>History</legend>
@@ -29,14 +30,15 @@
                         <fieldset class="status menu-container">
                                 <legend>Status</legend>
                                 <ul>
-                                        <li><span class="bool">Logged in:</span><span class="red">True</span></li>
-                                        <li><span class="bool">Price sync:</span><span class="red">True</span></li>
+                                        <li class="bool-list-item"><span>Logged in:</span><span class="red">True</span></li>
+                                        <li class="bool-list-item"><span>Price sync:</span><span class="red">True</span></li>
                                 </ul>
                                 <button on:click={() => signOut()} class="button">Sign out</button>
                         </fieldset>
                 </div>
                 <fieldset class="content">
                         <Header />
+                        <CoinLists />
                         <Terminal />
                 </fieldset>
         </div>  
@@ -65,7 +67,7 @@
                 display: flex;
                 flex-direction: column;
                 gap: .5rem;
-                margin: 0.5rem 0rem 1rem 1rem;
+                margin: 0.4rem 0rem 1rem 1rem;
         }
 
         .status {
@@ -94,11 +96,12 @@
 
         button {
                 font-size: 1rem;
-                margin: 1rem 0rem .3rem 0rem;
+                margin: 1rem 0rem .1rem 0rem;
         }
 
-        .bool {
-                width: 20rem;
+        .bool-list-item {
+                display: flex;
+                justify-content: space-between;
         }
 </style>
     

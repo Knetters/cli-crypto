@@ -69,7 +69,6 @@
         position: absolute;
         bottom: 0;
         left: 0;
-        border: 1px solid var(--f-white);
         width: 100%;
         height: 20rem;
         background-color: var(--bg-terminal);
@@ -84,6 +83,7 @@
         padding: .2rem .5rem .3rem .5rem;
         user-select: none;
         z-index: 999;
+        border-top: 1px solid var(--f-white);
         border-bottom: 1px solid var(--f-white);
     }
 

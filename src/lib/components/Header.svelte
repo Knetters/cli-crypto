@@ -1,15 +1,14 @@
 <script lang="ts">
     import { page } from "$app/stores";
     import { onMount } from "svelte";
-    import { listAssets } from '$lib/utils/listAssets';
+    import { totalValue } from '$lib/utils/assets';
     
-    let totalAmount: any = 0; // Initialize totalAmount
+    let totalAmount: any = 0;
 
     const username: any = $page.data.session?.user?.email;
 
-    // Call listAssets function to fetch and calculate total value
     onMount(async () => {
-        totalAmount = await listAssets(username);
+        totalAmount = await totalValue(username);
     });
 </script>
 
@@ -47,7 +46,7 @@
     }
 
     .BTC::after {
-        content: "Bitcoin";
+        content: "BTC";
         font-size: .8rem;
         position: absolute;
         margin-top: .5rem;
@@ -59,7 +58,7 @@
     }
 
     .ETH::after {
-        content: "Etherium";
+        content: "ETH";
         font-size: .8rem;
         position: absolute;
         margin-top: .5rem;
@@ -71,7 +70,7 @@
     }
 
     .SOL::after {
-        content: "Solana";
+        content: "SOL";
         font-size: .8rem;
         position: absolute;
         margin-top: .5rem;
