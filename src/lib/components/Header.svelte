@@ -5,7 +5,7 @@
     
     let assets: any = [];
     let totalAmount: any = 0;
-    let totalWidth: number = 0;
+    let totalWidths: { [key: string]: number } = {}; // Object to store width percentages for each coin
 
     const username: any = $page.data.session?.user?.email;
 
@@ -17,10 +17,14 @@
 
     function calculateWidths() {
         totalAmount = 0;
-        assets.forEach((asset: { amount: number; rates: { USD: number; }; }) => {
+        assets.forEach((asset: { amount: number; rates: { USD: number; }; coin: string; }) => {
             totalAmount += asset.amount * asset.rates.USD;
         });
-        totalWidth = 100 / assets.length;
+        
+        assets.forEach((asset: { amount: number; rates: { USD: number; }; coin: string; }) => {
+            const assetValue = asset.amount * asset.rates.USD;
+            totalWidths[asset.coin] = (assetValue / totalAmount) * 100; // Calculate percentage width for each coin
+        });
     }
 </script>
 
@@ -32,7 +36,7 @@
     {/if}
     <div class="line">
         {#each assets as asset}
-            <div class="{asset.coin} line-element" style="width: {totalWidth}%"></div>
+            <div class="{asset.coin} line-element" style="width: {totalWidths[asset.coin] ?? 0}%"></div>
         {/each}
     </div>
 </header>
