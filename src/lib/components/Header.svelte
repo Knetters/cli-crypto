@@ -37,7 +37,7 @@
     {/if}
     <div class="line">
         {#each assets as asset}
-            <div class="{asset.coin} line-element {totalWidths[asset.coin] < 3 ? 'small-width' : ''}" style="width: {totalWidths[asset.coin] ?? 0}%"></div>
+            <div class="{asset.coin} line-element {totalWidths[asset.coin] < 3 ? 'small-width' : ''}" style="width: {totalWidths[asset.coin] ?? 0}%" title="{asset.coin}, ${(asset.amount * asset.rates.USD).toFixed(2)}"></div>
         {/each}
     </div>
 </header>
@@ -63,6 +63,7 @@
 
     .line-element:hover {
         box-shadow: 0 0 5px var(--f-blue);
+        cursor: pointer;
     }
 
     .line-element::after {
