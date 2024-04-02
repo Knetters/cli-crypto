@@ -9,13 +9,12 @@
 
     onMount(async () => {
         await updateAssets();
-        setInterval(updateAssets, 5000); // Run every 5 seconds
+        setInterval(updateAssets, 5000);
     });
 
     async function updateAssets() {
         const updatedAssets = await listAssets(username);
         
-        // Compare current and previous prices to determine the trend
         updatedAssets.forEach(updatedAsset => {
             const prevAsset = assets.find((asset: { coin: any; }) => asset.coin === updatedAsset.coin);
             if (prevAsset && updatedAsset.rates.USD !== prevAsset.rates.USD) {

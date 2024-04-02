@@ -5,17 +5,18 @@
     
     let assets: any = [];
     let totalAmount: any = 0;
-    let totalWidths: { [key: string]: number } = {}; // Object to store width percentages for each coin
+    let totalWidths: { [key: string]: number } = {};
 
     const username: any = $page.data.session?.user?.email;
 
     onMount(async () => {
-        assets = await listAssets(username);
         calculateWidths();
-        setInterval(calculateWidths, 5000); // Run every 5 seconds
+        setInterval(calculateWidths, 5000);
     });
 
-    function calculateWidths() {
+    async function calculateWidths() {
+        assets = await listAssets(username);
+
         totalAmount = 0;
         assets.forEach((asset: { amount: number; rates: { USD: number; }; coin: string; }) => {
             totalAmount += asset.amount * asset.rates.USD;
@@ -23,7 +24,7 @@
         
         assets.forEach((asset: { amount: number; rates: { USD: number; }; coin: string; }) => {
             const assetValue = asset.amount * asset.rates.USD;
-            totalWidths[asset.coin] = (assetValue / totalAmount) * 100; // Calculate percentage width for each coin
+            totalWidths[asset.coin] = (assetValue / totalAmount) * 100;
         });
     }
 </script>
