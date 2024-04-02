@@ -55,9 +55,10 @@
                         if (!coin) {
                             terminalOutput.innerHTML = 'Invalid command syntax. Usage: remove <coin>';
                         } else {
-                            removeCoin(coin, username)
+                            removeCoin(amount, coin, username)
                                 .then(() => {
-                                    terminalOutput.innerHTML = `Removed ${coin}`;
+                                    addHistory(`Removed ${amount} of ${coin}.`, username)
+                                    terminalOutput.innerHTML = `Removed ${amount} ${coin}`;
                                 })
                                 .catch((error) => {
                                     terminalOutput.innerHTML = `Error: ${error.message}`;
@@ -65,7 +66,7 @@
                         }
                         break;
                     case 'help':
-                        terminalOutput.innerHTML = 'List of commands: - add [amount] [coin] - remove [coin] - update [amount] [coin]';
+                        terminalOutput.innerHTML = 'List of commands: - add [amount] [coin] - remove [coin]';
                         break;
                     default:
                         terminalOutput.innerHTML = `Command not found: ${command}`;

@@ -1,7 +1,7 @@
 import { supabase } from '$lib/supabase';
 import { page } from "$app/stores";
 
-export async function removeCoin(coin: string, username: string) {
+export async function removeCoin(amount: number, coin: string, username: string) {
     if (!page) {
         console.error("No user data.");
         return;
@@ -25,17 +25,20 @@ export async function removeCoin(coin: string, username: string) {
         }
 
         let coins = data.coins || [];
+        let coinIndex = coins.findIndex((c: any) => c.coin === coin);
 
-        // Find index of the coin to remove
-        const index = coins.findIndex((c: any) => c.coin === coin);
+        if (coinIndex !== -1) {
+            // If coin exists, decrease its amount
+            coins[coinIndex].amount -= amount;
 
-        if (index === -1) {
-            console.error('Coin not found for this user.');
+            // Remove the coin entry if its amount becomes zero or less
+            if (coins[coinIndex].amount <= 0) {
+                coins.splice(coinIndex, 1);
+            }
+        } else {
+            console.error('Coin not found for removal.');
             return;
         }
-
-        // Remove the coin from the coins list
-        coins.splice(index, 1);
 
         // Update user's coins
         const { error } = await supabase
@@ -47,8 +50,8 @@ export async function removeCoin(coin: string, username: string) {
             throw error;
         }
 
-        console.log('Coin removed successfully.');
+        console.log('Coins removed successfully.');
     } catch (error) {
-        console.error('Error:');
+        console.error('Error:', error);
     }
 }
