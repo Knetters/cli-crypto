@@ -2,6 +2,7 @@
     import { page } from "$app/stores";
     import { addCoin } from '$lib/services/addCoin';
     import { addHistory } from '$lib/services/addHistory';
+    import { clearHistory } from "$lib/services/clearHistory";
     import { removeCoin } from '$lib/services/removeCoin';
     import { onMount } from 'svelte';
 
@@ -64,6 +65,15 @@
                                     terminalOutput.innerHTML = `Error: ${error.message}`;
                                 });
                         }
+                        break;
+                    case 'clear':
+                        clearHistory(username)
+                        .then(() => {
+                            terminalOutput.innerHTML = `History cleared`;
+                            })
+                        .catch((error) => {
+                            terminalOutput.innerHTML = `Error: ${error.message}`;
+                        });
                         break;
                     case 'help':
                         terminalOutput.innerHTML = 'List of commands: - add [amount] [coin] - remove [coin]';
