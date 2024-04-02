@@ -29,19 +29,38 @@
 
 <section class="list-row">
     <div class="list-row-item">
-        <h2>Your assets</h2>
+        <div class="inner-row">
+            <div class="inner-row-item first">
+                <h2>Your assets</h2>
 
-        {#if assets.length > 0}
-            <ul>
-                {#each assets as asset}
-                    <li class="asset-list-item {asset.trend}">
-                        <span class="asset-name">{asset.coin}</span> ${asset.rates.USD}
-                    </li>
-                {/each}
-            </ul>
-        {:else}
-            <p>No assets found.</p>
-        {/if}
+                {#if assets.length > 0}
+                    <ul>
+                        {#each assets as asset}
+                            <li class="asset-list-item {asset.trend}">
+                                <span class="asset-name">{asset.coin}</span> ${asset.rates.USD}
+                            </li>
+                        {/each}
+                    </ul>
+                {:else}
+                    <p>No assets found.</p>
+                {/if}
+            </div>
+            <div class="inner-row-item">
+                <h2>Your asset values</h2>
+        
+                {#if assets.length > 0}
+                    <ul>
+                        {#each assets as asset}
+                            <li class="asset-list-item {asset.trend}">
+                                <span class="asset-name">{asset.amount}</span> ${(asset.amount * asset.rates.USD).toFixed(2)}
+                            </li>
+                        {/each}
+                    </ul>
+                {:else}
+                    <p>No assets found.</p>
+                {/if}
+            </div>
+        </div>
     </div>
     <div class="list-row-item">
         <h2>Market</h2>
@@ -68,6 +87,15 @@
     .asset-name {
         display: inline-block;
         width: 3rem;
+    }
+
+    .inner-row {
+        display: flex;
+        gap: 4rem;
+    }
+
+    .first {
+        width: 10rem;
     }
 
     .higher {

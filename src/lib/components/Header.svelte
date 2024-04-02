@@ -36,7 +36,7 @@
     {/if}
     <div class="line">
         {#each assets as asset}
-            <div class="{asset.coin} line-element" style="width: {totalWidths[asset.coin] ?? 0}%"></div>
+            <div class="{asset.coin} line-element {totalWidths[asset.coin] < 3 ? 'small-width' : ''}" style="width: {totalWidths[asset.coin] ?? 0}%"></div>
         {/each}
     </div>
 </header>
@@ -60,10 +60,18 @@
         background-color: var(--f-blue);
     }
 
+    .line-element:hover {
+        box-shadow: 0 0 5px var(--f-blue);
+    }
+
     .line-element::after {
         font-size: .8rem;
         position: absolute;
         margin-top: .5rem;
+    }
+
+    .small-width::after {
+        content: "";
     }
 
     @media screen and (max-width: 600px) {

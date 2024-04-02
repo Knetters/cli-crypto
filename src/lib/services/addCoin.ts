@@ -24,14 +24,16 @@ export async function addCoin(amount: number, coin: string, username: string) {
             return;
         }
 
-        const coins = data.coins || [];
+        let coins = data.coins || [];
+        let coinIndex = coins.findIndex((c: any) => c.coin === coin);
 
-        let asset = {
-            coin,
-            amount,
-        };
-
-        coins.push(asset);
+        if (coinIndex !== -1) {
+            // If coin already exists, update its amount
+            coins[coinIndex].amount += amount;
+        } else {
+            // If coin doesn't exist, add a new entry
+            coins.push({ coin, amount });
+        }
 
         // Update user's coins
         const { error } = await supabase
@@ -45,6 +47,6 @@ export async function addCoin(amount: number, coin: string, username: string) {
 
         console.log('Coins updated successfully.');
     } catch (error) {
-        console.error('Error');
+        console.error('Error:');
     }
 }
