@@ -36,7 +36,7 @@
                     <ul>
                         {#each assets as asset}
                             <li class="asset-list-item {asset.trend}">
-                                <span class="asset-name">{asset.coin}</span> ${asset.rates.USD}
+                                <span class="asset-name">{asset.coin}</span> ${(Number(asset.rates.USD)).toFixed(2)}
                             </li>
                         {/each}
                     </ul>
@@ -51,7 +51,7 @@
                     <ul>
                         {#each assets as asset}
                             <li class="asset-list-item {asset.trend}">
-                                <span class="asset-name">{asset.amount}</span> ${(asset.amount * asset.rates.USD).toFixed(2)}
+                                <span class="asset-amount">{asset.amount}</span> ${(asset.amount * asset.rates.USD).toFixed(2)}
                             </li>
                         {/each}
                     </ul>
@@ -62,7 +62,7 @@
         </div>
     </div>
     <div class="list-row-item">
-        <h2>Market</h2>
+        <!-- <h2>Market</h2> -->
     </div>
     <div class="list-row-item">
     </div>
@@ -86,6 +86,11 @@
     .asset-name {
         display: inline-block;
         width: 3rem;
+    }
+
+    .asset-amount {
+        display: inline-block;
+        width: 5rem;
     }
 
     .inner-row {
