@@ -79,7 +79,7 @@
         <span class="toolbar-text">cli-Crypto login, version 1.0</span>
     </div>
     <div class="terminal-content">
-        <p aria-hidden="true" id="text-art" class="text-art">Loading...</p>
+        <p aria-hidden="true" id="text-art" class="text-art"><span class="loading">Loading...</span></p>
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
         <p class="intro-text">Welcome, type <span class="login" tabindex="0" on:click={() => signIn("google")}>login</span> to get started.</p>
@@ -170,7 +170,7 @@
         outline: none;
     }
 
-    .login:hover {
-        text-decoration: underline;
+    .loading {
+        margin-top: 2rem;
     }
 </style>
