@@ -5,22 +5,27 @@
     
     let assets: any = [];
     let totalAmount: any = 0;
-    let totalWidth: number = 0;
+    let totalWidths: { [key: string]: number } = {};
 
     const username: any = $page.data.session?.user?.email;
 
     onMount(async () => {
-        assets = await listAssets(username);
         calculateWidths();
-        setInterval(calculateWidths, 5000); // Run every 5 seconds
+        setInterval(calculateWidths, 5000);
     });
 
-    function calculateWidths() {
+    async function calculateWidths() {
+        assets = await listAssets(username);
+
         totalAmount = 0;
-        assets.forEach((asset: { amount: number; rates: { USD: number; }; }) => {
+        assets.forEach((asset: { amount: number; rates: { USD: number; }; coin: string; }) => {
             totalAmount += asset.amount * asset.rates.USD;
         });
-        totalWidth = 100 / assets.length;
+        
+        assets.forEach((asset: { amount: number; rates: { USD: number; }; coin: string; }) => {
+            const assetValue = asset.amount * asset.rates.USD;
+            totalWidths[asset.coin] = (assetValue / totalAmount) * 100;
+        });
     }
 </script>
 
@@ -32,7 +37,7 @@
     {/if}
     <div class="line">
         {#each assets as asset}
-            <div class="{asset.coin} line-element" style="width: {totalWidth}%"></div>
+            <div class="{asset.coin} line-element {totalWidths[asset.coin] < 3 ? 'small-width' : ''}" style="width: {totalWidths[asset.coin] ?? 0}%" title="{asset.coin}, ${(asset.amount * asset.rates.USD).toFixed(2)}"></div>
         {/each}
     </div>
 </header>
@@ -56,10 +61,19 @@
         background-color: var(--f-blue);
     }
 
+    .line-element:hover {
+        box-shadow: 0 0 5px var(--f-blue);
+        cursor: pointer;
+    }
+
     .line-element::after {
         font-size: .8rem;
         position: absolute;
         margin-top: .5rem;
+    }
+
+    .small-width::after {
+        content: "";
     }
 
     @media screen and (max-width: 600px) {

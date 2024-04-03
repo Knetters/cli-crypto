@@ -1,7 +1,7 @@
 import { supabase } from '$lib/supabase';
 import { page } from "$app/stores";
 
-export async function addCoin(amount: number, coin: string, username: string) {
+export async function reset(username: string) {
     if (!page) {
         console.error("No user data.");
         return;
@@ -11,7 +11,7 @@ export async function addCoin(amount: number, coin: string, username: string) {
         // Fetch user data
         const { data, error: lobbyError } = await supabase
             .from('users')
-            .select('coins')
+            .select('history, coins')
             .eq("name", username)
             .single();
 
@@ -23,29 +23,17 @@ export async function addCoin(amount: number, coin: string, username: string) {
             console.error('User not found.');
             return;
         }
-
-        let coins = data.coins || [];
-        let coinIndex = coins.findIndex((c: any) => c.coin === coin);
-
-        if (coinIndex !== -1) {
-            // If coin already exists, update its amount
-            coins[coinIndex].amount += amount;
-        } else {
-            // If coin doesn't exist, add a new entry
-            coins.push({ coin, amount });
-        }
-
-        // Update user's coins
+        
         const { error } = await supabase
             .from('users')
-            .update({ coins })
+            .update({ history: [], coins: [] })
             .eq("name", username);
 
         if (error) {
             throw error;
         }
 
-        console.log('Coins updated successfully.');
+        console.log('Portfolio cleared successfully.');
     } catch (error) {
         console.error('Error:');
     }

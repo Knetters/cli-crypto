@@ -2,6 +2,8 @@
     import { page } from "$app/stores";
     import { addCoin } from '$lib/services/addCoin';
     import { addHistory } from '$lib/services/addHistory';
+    import { clearHistory } from "$lib/services/clearHistory";
+    import { reset } from "$lib/services/reset";
     import { removeCoin } from '$lib/services/removeCoin';
     import { onMount } from 'svelte';
 
@@ -40,6 +42,7 @@
                 const command = inputArr[0];
                 const amount = parseFloat(inputArr[1]);
                 const coin = inputArr[2];
+                // const confirm = inputArrConform[0]
 
                 switch (command) {
                     case 'add':
@@ -52,11 +55,47 @@
                         }
                         break;
                     case 'remove':
-                        removeCoin(coin, username);
-                        terminalOutput.innerHTML = `removed ${coin}`;
+                        if (!coin) {
+                            terminalOutput.innerHTML = 'Invalid command syntax. Usage: remove <coin>';
+                        } else {
+                            removeCoin(amount, coin, username)
+                                .then(() => {
+                                    addHistory(`Removed ${amount} of ${coin}.`, username)
+                                    terminalOutput.innerHTML = `Removed ${amount} ${coin}`;
+                                })
+                                .catch((error) => {
+                                    terminalOutput.innerHTML = `Error: ${error.message}`;
+                                });
+                        }
+                        break;
+                    case 'clear':
+                        clearHistory(username)
+                        .then(() => {
+                            terminalOutput.innerHTML = `History cleared`;
+                            })
+                        .catch((error) => {
+                            terminalOutput.innerHTML = `Error: ${error.message}`;
+                        });
+                        break;
+                    case 'reset':
+                        terminalOutput.innerHTML = `Are you sure you want to remove all assets and history? y/n`;
+                        terminalInput.addEventListener('keypress', function(event: any) {
+                            if (event.key.toLowerCase() === 'y') {
+                                reset(username)
+                                    .then(() => {
+                                        terminalOutput.innerHTML = `Portfolio cleared`;
+                                    })
+                                    .catch((error) => {
+                                        terminalOutput.innerHTML = `Error: ${error.message}`;
+                                    });
+                            } else if (event.key.toLowerCase() === 'n') {
+                                terminalOutput.innerHTML = `Reset cancelled`;
+                            }
+                            terminalInput.removeEventListener('keypress', arguments.callee);
+                        });
                         break;
                     case 'help':
-                        terminalOutput.innerHTML = 'List of commands: - add [amount] [coin] - remove [coin] - update [amount] [coin]';  
+                        terminalOutput.innerHTML = 'List of commands: - add [amount] [coin] - remove [coin] - clear - reset';
                         break;
                     default:
                         terminalOutput.innerHTML = `Command not found: ${command}`;
@@ -65,6 +104,7 @@
                 terminalInput.value = '';
             }
         });
+
     });
 </script>
 

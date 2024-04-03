@@ -34,7 +34,7 @@
                                 <legend>Welcome</legend>
                                 <span class="name">{$page.data.session?.user?.name}</span>
                         </fieldset>
-                        <fieldset class="menu menu-container">
+                        <fieldset class="menu menu-container history">
                                 <legend>History</legend>
                                 {#if history.length == 0}
                                         <p class="red">No history</p>
@@ -100,6 +100,14 @@
 
         .menu-container {
                 padding: .2rem .5rem;
+        }
+
+        .history {
+                overflow-y: scroll;
+        }
+
+        .history::-webkit-scrollbar {
+                display: none;
         }
 
         .content {
