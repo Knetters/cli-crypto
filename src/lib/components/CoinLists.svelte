@@ -26,53 +26,67 @@
     }
 </script>
 
-<section class="list-row">
-    <div class="list-row-item">
-        <div class="inner-row">
-            <div class="inner-row-item first">
-                <h2>Your assets</h2>
+<div class="content">
+    <section class="list-row">
+        <div class="list-row-item">
+            <h2>Your assets</h2>
+            <p class="asset-row yellow"><span>Name</span><span>Rate</span><span>Amount</span><span>Value</span></p>
 
-                {#if assets.length > 0}
-                    <ul>
-                        {#each assets as asset}
-                            <li class="asset-list-item {asset.trend}">
-                                <span class="asset-name">{asset.coin}</span> ${(Number(asset.rates.USD)).toFixed(2)}
-                            </li>
-                        {/each}
-                    </ul>
-                {:else}
-                    <p>No assets found.</p>
-                {/if}
-            </div>
-            <div class="inner-row-item">
-                <h2>Your asset values</h2>
-        
-                {#if assets.length > 0}
-                    <ul>
-                        {#each assets as asset}
-                            <li class="asset-list-item {asset.trend}">
-                                <span class="asset-amount">{asset.amount}</span> ${(asset.amount * asset.rates.USD).toFixed(2)}
-                            </li>
-                        {/each}
-                    </ul>
-                {:else}
-                    <p>No assets found.</p>
-                {/if}
-            </div>
+            {#if assets.length > 0}
+                <ul class="your-assets">
+                    {#each assets as asset}
+                        <li class="asset-list-item {asset.trend}">
+                            <p class="asset-row"><span>{asset.coin}</span> <span>${(Number(asset.rates.USD)).toFixed(2)}</span> <span>{asset.amount}</span> ${(asset.amount * asset.rates.USD).toFixed(2)}</p>
+                        </li>
+                    {/each}
+                </ul>
+            {:else}
+                <p>No assets found.</p>
+            {/if}
         </div>
-    </div>
-    <div class="list-row-item">
-        <!-- <h2>Market</h2> -->
-    </div>
-    <div class="list-row-item">
-    </div>
-</section>
+        <div class="list-row-item">
+            <!-- <h2>Market</h2> -->
+        </div>
+        <div class="list-row-item">
+        </div>
+    </section>
+    <section class="graph-container">
+        graph
+    </section>
+</div>
 
 
 <style>
+    .content {
+        display: flex;
+        gap: .5rem;
+        flex-direction: column;
+        position: absolute;
+        bottom: 0;
+        margin-bottom: 20.5rem;
+        width: calc(100% - 1rem);
+    }
+
     .list-row {
         display: flex;
         justify-content: space-between;
+        height: 100%;
+    }
+
+    .graph-container {
+        background-color: var(--bg-global);
+        padding: .5rem;
+        border-radius: 1rem;
+        height: 10.5rem;
+    }
+
+    .your-assets {
+        overflow-y: scroll;
+        height: 9rem;
+    }
+
+    .your-assets::-webkit-scrollbar {
+        display: none;
     }
 
     .list-row-item {
@@ -83,23 +97,13 @@
         text-transform: uppercase;
     }
 
-    .asset-name {
-        display: inline-block;
-        width: 3rem;
-    }
-
-    .asset-amount {
-        display: inline-block;
-        width: 5rem;
-    }
-
-    .inner-row {
+    .asset-row {
         display: flex;
-        gap: 4rem;
+        text-align: left;
     }
 
-    .first {
-        width: 10rem;
+    .asset-row span {
+        width: 8rem;
     }
 
     .higher {
