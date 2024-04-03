@@ -158,6 +158,10 @@
         font-style: italic;
     }
 
+    .login:hover {
+        text-decoration: underline;
+    }
+
     .terminal-input {
         background-color: transparent;
         border: none;
