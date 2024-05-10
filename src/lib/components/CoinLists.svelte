@@ -3,6 +3,8 @@
     import { onMount } from "svelte";
     import { listAssets } from '$lib/utils/assets';
     
+    import Chart from "./Chart.svelte";
+    
     let assets: any = [];
 
     const username: any = $page.data.session?.user?.email;
@@ -47,11 +49,9 @@
         <div class="list-row-item">
             <!-- <h2>Market</h2> -->
         </div>
-        <div class="list-row-item">
-        </div>
     </section>
     <section class="graph-container">
-        graph
+        <Chart />
     </section>
 </div>
 

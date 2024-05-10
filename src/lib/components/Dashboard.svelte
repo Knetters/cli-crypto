@@ -21,7 +21,7 @@
         async function updateHistory() {
                 history = await getHistory(username);
         }
-</script>    
+</script>
 
 <svelte:head>
         <title>cli-Crypto - Portfolio {$page.data.session?.user?.name}</title>
