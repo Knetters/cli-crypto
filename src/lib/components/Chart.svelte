@@ -94,6 +94,6 @@
   canvas {
     margin: 0;
     width: 100%;
-    height: 14.5rem;
+    height: 40vh;
   }
 </style>

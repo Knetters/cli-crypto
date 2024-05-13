@@ -69,7 +69,6 @@
   .content {
     display: flex;
     gap: 0.5rem;
-    flex-direction: column;
     position: absolute;
     bottom: 0;
     margin-bottom: 20.5rem;
@@ -79,19 +78,23 @@
   .list-row {
     display: flex;
     justify-content: space-between;
-    height: 100%;
+    background-color: var(--bg-global);
+    border-radius: 1rem;
+    padding: 0.5rem;
+    height: 30vh;
   }
 
   .graph-container {
     background-color: var(--bg-global);
     border-radius: 1rem;
-    padding: 0.5rem 0rem;
-    height: 14.5rem;
+    padding: 0.5rem;
+    height: 30vh;
+    width: 100%;
   }
 
   .your-assets {
     overflow-y: scroll;
-    height: 9rem;
+    height: 100%;
   }
 
   .your-assets::-webkit-scrollbar {
