@@ -23,7 +23,8 @@
     "@auth/core": "^0.24.0",
     "@auth/sveltekit": "^0.10.0",
     "@supabase/supabase-js": "^2.40.0",
-    "chart.js": "^4.4.2"
+    "chart.js": "^4.4.2",
+    "pnpm": "^9.1.1"
   },
   "description": "Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).",
   "main": "svelte.config.js",
