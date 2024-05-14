@@ -1,4 +1,6 @@
 <script>
+  // @ts-nocheck
+
   import { onMount } from "svelte";
   import Chart from "chart.js/auto";
 
@@ -20,10 +22,6 @@
 
       let btcChart = document.getElementById("btcChart").getContext("2d");
 
-      let gradient = btcChart.createLinearGradient(0, 0, 0, 400);
-      gradient.addColorStop(0, "rgba(247,147,26,.5)");
-      gradient.addColorStop(0.425, "rgba(255,193,119,0)");
-
       Chart.defaults.font.family = "Poppins";
       Chart.defaults.font.size = 12;
 
@@ -35,18 +33,20 @@
             {
               label: "$",
               data: prices,
-              borderColor: "#4AF985",
+              borderColor: "#61dab6",
               borderJoinStyle: "round",
               borderCapStyle: "round",
-              borderWidth: 3,
+              borderWidth: 1,
               pointRadius: 0,
               pointHitRadius: 10,
-              tension: 0.2,
+              tension: 0.1,
             },
           ],
         },
 
         options: {
+          responsive: true,
+          maintainAspectRatio: false,
           plugins: {
             title: {
               display: false,
@@ -87,13 +87,12 @@
 
 <style>
   div {
-    max-width: 100%;
-    height: 14rem;
+    width: 100%;
+    height: 28vh;
   }
 
   canvas {
     margin: 0;
     width: 100%;
-    height: 40vh;
   }
 </style>
