@@ -140,7 +140,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 25vh;
+    height: 45.5vh;
     background-color: var(--bg-terminal);
     margin-top: 6rem;
   }
@@ -164,7 +164,7 @@
   .terminal-content {
     position: absolute;
     padding: 0.5rem;
-    height: 25vh;
+    height: 45.5vh;
     width: 100%;
     font-size: 1rem;
     user-select: none;
