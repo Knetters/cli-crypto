@@ -80,10 +80,10 @@
         {/if}
       </ul>
       <ul class="option-list right-list">
-        <li class="option-item"><button>Day</button></li>
-        <li class="option-item"><button>Week</button></li>
-        <li class="option-item"><button>Month</button></li>
-        <li class="option-item"><button>Year</button></li>
+        <li class="option-item"><button value="1">Day</button></li>
+        <li class="option-item"><button value="7">Week</button></li>
+        <li class="option-item"><button value="31">Month</button></li>
+        <li class="option-item"><button value="365">Year</button></li>
       </ul>
     </div>
     <Chart />
