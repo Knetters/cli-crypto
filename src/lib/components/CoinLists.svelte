@@ -6,12 +6,15 @@
   import Chart from "./Chart.svelte";
 
   let assets: any = [];
+  let selectedTimeOption = null || "";
 
   const username: any = $page.data.session?.user?.email;
 
   onMount(async () => {
     await updateAssets();
     setInterval(updateAssets, 5000);
+    // Load selected time option from session cookie
+    selectedTimeOption = sessionStorage.getItem("selectedTimeOption") || "30";
   });
 
   async function updateAssets() {
@@ -31,6 +34,12 @@
     });
 
     assets = updatedAssets;
+  }
+
+  function selectTimeOption(event) {
+    selectedTimeOption = event.target.value;
+    // Store selected time option in session cookie
+    sessionStorage.setItem("selectedTimeOption", selectedTimeOption);
   }
 </script>
 
@@ -80,13 +89,21 @@
         {/if}
       </ul>
       <ul class="option-list right-list">
-        <li class="option-item"><button value="1">Day</button></li>
-        <li class="option-item"><button value="7">Week</button></li>
-        <li class="option-item"><button value="31">Month</button></li>
-        <li class="option-item"><button value="365">Year</button></li>
+        <li class="option-item">
+          <button value="1" on:click={selectTimeOption}>Day</button>
+        </li>
+        <li class="option-item">
+          <button value="7" on:click={selectTimeOption}>Week</button>
+        </li>
+        <li class="option-item selected-time">
+          <button value="31" on:click={selectTimeOption}>Month</button>
+        </li>
+        <li class="option-item">
+          <button value="365" on:click={selectTimeOption}>Year</button>
+        </li>
       </ul>
     </div>
-    <Chart />
+    <Chart {selectedTimeOption} />
   </section>
 </div>
 
@@ -114,6 +131,10 @@
     background-color: var(--bg-global);
     padding: 0.3rem 0.5rem 0.5rem 0.5rem;
     border-radius: 0.5rem;
+  }
+
+  .selected-time {
+    box-shadow: inset 0 0 0 0.1rem var(--f-blue);
   }
 
   .content {
