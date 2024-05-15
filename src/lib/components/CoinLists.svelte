@@ -22,8 +22,11 @@
         (asset: { coin: any }) => asset.coin === updatedAsset.coin
       );
       if (prevAsset && updatedAsset.rates.USD !== prevAsset.rates.USD) {
-        updatedAsset.trend =
-          updatedAsset.rates.USD > prevAsset.rates.USD ? "higher" : "lower";
+        // Check if 'trend' property exists on updatedAsset
+        if ("trend" in updatedAsset) {
+          updatedAsset.trend =
+            updatedAsset.rates.USD > prevAsset.rates.USD ? "higher" : "lower";
+        }
       }
     });
 
@@ -34,6 +37,9 @@
 <div class="content">
   <section class="list-row">
     <div class="list-row-item">
+      <ul class="option-list">
+        <li class="option-item"><button>Currency</button></li>
+      </ul>
       <h2>Your assets</h2>
       <p class="asset-row yellow">
         <span>Name</span><span>Rate</span><span>Amount</span><span>Value</span>
@@ -61,18 +67,61 @@
     </div>
   </section>
   <section class="graph-container">
+    <div class="graph-option-row">
+      <ul class="option-list">
+        {#if assets.length > 0}
+          {#each assets as asset}
+            <li class="uppercase option-item {asset.trend}">
+              <button>{asset.coin}</button>
+            </li>
+          {/each}
+        {:else}
+          <p>No coins to filter.</p>
+        {/if}
+      </ul>
+      <ul class="option-list right-list">
+        <li class="option-item"><button>Day</button></li>
+        <li class="option-item"><button>Week</button></li>
+        <li class="option-item"><button>Month</button></li>
+        <li class="option-item"><button>Year</button></li>
+      </ul>
+    </div>
     <Chart />
   </section>
 </div>
 
 <style>
+  .graph-option-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .right-list {
+    justify-content: right;
+  }
+
+  .option-list {
+    width: 100%;
+    display: flex;
+    margin-bottom: 1rem;
+    margin-top: -3rem;
+    margin-left: -0.5rem;
+    gap: 0.5rem;
+  }
+
+  .option-item {
+    background-color: var(--bg-global);
+    padding: 0.3rem 0.5rem 0.5rem 0.5rem;
+    border-radius: 0.5rem;
+  }
+
   .content {
     display: flex;
     gap: 0.5rem;
-    position: absolute;
-    bottom: 0;
-    margin-bottom: 20.5rem;
     width: calc(100% - 1rem);
+    height: 32vh;
+    margin-top: 8rem;
   }
 
   .list-row {
@@ -81,14 +130,14 @@
     background-color: var(--bg-global);
     border-radius: 1rem;
     padding: 0.5rem;
-    height: 30vh;
+    height: 100%;
   }
 
   .graph-container {
     background-color: var(--bg-global);
     border-radius: 1rem;
     padding: 0.5rem;
-    height: 30vh;
+    height: 100%;
     width: 100%;
   }
 

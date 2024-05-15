@@ -1,5 +1,5 @@
 export interface CoinDTO {
-    [key: string]: string;
+    [key: string]: string; // Adding the trend property as an optional string
 }
 
 export interface ExchangeRatesResponse {
