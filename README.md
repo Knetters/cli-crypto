@@ -1,6 +1,6 @@
 # cli-Crypto
 <img width="1680" alt="Screenshot 2024-04-03 at 09 39 59" src="https://github.com/Knetters/cli-crypto/assets/60781257/b8f4be42-24a7-4633-9c35-f9144528e3bb">
-<img width="1678" alt="Screenshot 2024-04-03 at 09 39 25" src="https://github.com/Knetters/cli-crypto/assets/60781257/c983b93b-5239-4751-b5a4-16f5878a5d26">
+<img width="1920" alt="Screenshot 2024-05-15 at 11 54 19" src="https://github.com/Knetters/cli-crypto/assets/60781257/849131e9-35cf-49aa-a196-bb9480feef58">
 <br>
 <br>
 cli-Crypto is a command-line interface (CLI) application built using SvelteKit with TypeScript. It integrates Google Sign-In for authentication, Supabase for database operations, and the Coinbase API for accessing cryptocurrency data. With cli-Crypto, users can manage their cryptocurrency portfolios through simple commands.
