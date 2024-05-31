@@ -89,16 +89,28 @@
         {/if}
       </ul>
       <ul class="option-list right-list">
-        <li class="option-item">
+        <li
+          class="option-item"
+          class:selected-time={selectedTimeOption === "1"}
+        >
           <button value="1" on:click={selectTimeOption}>Day</button>
         </li>
-        <li class="option-item">
+        <li
+          class="option-item"
+          class:selected-time={selectedTimeOption === "7"}
+        >
           <button value="7" on:click={selectTimeOption}>Week</button>
         </li>
-        <li class="option-item selected-time">
-          <button value="31" on:click={selectTimeOption}>Month</button>
+        <li
+          class="option-item"
+          class:selected-time={selectedTimeOption === "30"}
+        >
+          <button value="30" on:click={selectTimeOption}>Month</button>
         </li>
-        <li class="option-item">
+        <li
+          class="option-item"
+          class:selected-time={selectedTimeOption === "365"}
+        >
           <button value="365" on:click={selectTimeOption}>Year</button>
         </li>
       </ul>
@@ -139,6 +151,7 @@
 
   .content {
     display: flex;
+    bottom: 0;
     gap: 0.5rem;
     width: calc(100% - 1rem);
     height: 32vh;
