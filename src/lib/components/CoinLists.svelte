@@ -8,6 +8,7 @@
   let assets: any = [];
   let selectedTimeOption = null || "";
   let selectedCoinOption = null || "";
+  // Maak hier een samenvoeging die graphData heet ofzo.
 
   const username: any = $page.data.session?.user?.email;
 
