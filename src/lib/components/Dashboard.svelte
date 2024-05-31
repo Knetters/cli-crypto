@@ -80,6 +80,7 @@
     margin-left: auto;
     margin-right: auto;
     position: relative;
+    overflow: hidden;
   }
 
   .inner-dashboard {
@@ -97,7 +98,12 @@
   }
 
   .coin-content {
-    height: 75vh;
+    height: 100%;
+    width: 100%;
+    padding-bottom: 25.3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .status {

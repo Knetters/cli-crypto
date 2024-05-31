@@ -7,6 +7,7 @@
 
   let assets: any = [];
   let selectedTimeOption = null || "";
+  let selectedCoinOption = null || "";
 
   const username: any = $page.data.session?.user?.email;
 
@@ -36,8 +37,9 @@
     assets = updatedAssets;
   }
 
-  function selectTimeOption(event) {
-    selectedTimeOption = event.target.value;
+  function selectTimeOption(event: MouseEvent) {
+    const target = event.target as HTMLButtonElement;
+    selectedTimeOption = target.value;
     // Store selected time option in session cookie
     sessionStorage.setItem("selectedTimeOption", selectedTimeOption);
   }
@@ -47,7 +49,9 @@
   <section class="list-row">
     <div class="list-row-item">
       <ul class="option-list">
-        <li class="option-item"><button>Currency</button></li>
+        <li class="option-item">
+          <button>Currency: <span class="red">$</span></button>
+        </li>
       </ul>
       <h2>Your assets</h2>
       <p class="asset-row yellow">
@@ -80,8 +84,8 @@
       <ul class="option-list">
         {#if assets.length > 0}
           {#each assets as asset}
-            <li class="uppercase option-item {asset.trend}">
-              <button>{asset.coin}</button>
+            <li class="option-item coin-select {asset.trend}">
+              <button class="uppercase">{asset.coin}</button>
             </li>
           {/each}
         {:else}
@@ -153,9 +157,13 @@
     display: flex;
     bottom: 0;
     gap: 0.5rem;
-    width: calc(100% - 1rem);
+    width: 100%;
     height: 32vh;
     margin-top: 8rem;
+  }
+
+  .content section {
+    /* box-shadow: inset 0 0 0 0.1rem var(--f-blue); */
   }
 
   .list-row {
@@ -186,6 +194,10 @@
 
   .list-row-item {
     width: 100%;
+  }
+
+  .coin-select:first-child {
+    box-shadow: inset 0 0 0 0.1rem var(--f-blue);
   }
 
   .asset-list-item {

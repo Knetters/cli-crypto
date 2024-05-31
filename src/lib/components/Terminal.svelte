@@ -140,9 +140,8 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 45.5vh;
+    height: 25rem;
     background-color: var(--bg-terminal);
-    margin-top: 6rem;
   }
 
   .toolbar {
